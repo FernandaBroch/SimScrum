@@ -21,3 +21,30 @@ export const signOut = () => {
     })
   }
 }
+
+export const signUp = (newUser) => {
+  return (dispatch, getState, {getFirebase, getFirestore}) => {
+    const firebase = getFirebase();
+    const firestore = getFirestore();
+
+    firebase.auth().createUserWithEmailAndPassword(
+      newUser.email,
+      newUser.password
+    ).then((resp) => {
+      return firestore.collection('profiles').doc(resp.user.uid).set({
+        nickname: newUser.nickname,
+        initials: newUser.nickname[0] + newUser.nickname[1]
+      });
+    }).then(() => {
+      dispatch({ type: 'SIGNUP_SUCCESS'});
+    }).catch((err) => {
+      dispatch({ type: 'SIGNUP_ERROR', err});
+    })
+  }
+}
+
+export const getCurrUser = () => {
+  return() => {
+    
+  }
+}
