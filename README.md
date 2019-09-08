@@ -2,7 +2,7 @@
 The objective of this project is to help beginners to understand and experience basic Scrum concepts. 
 Such as the roles and day to day activities of scrum teams.
 
-## To Start
+### To Start
 Clone this repository and run npm install in the project folder
 
 ### To Run
