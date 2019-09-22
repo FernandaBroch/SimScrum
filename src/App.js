@@ -3,8 +3,9 @@ import { BrowserRouter, Switch, Route } from 'react-router-dom'
 import Navbar from './components/layout/Navbar'
 import SignIn from './components/auth/SignIn'
 import SignUp from './components/auth/SignUp'
-import Profile from './components/game/Profile'
-import NewGame from './components/game/NewGame';
+import Profile from './components/game/profile/Profile'
+import NewGame from './components/game/newgame/NewGame';
+import BacklogBoard from './components/game/backlog/BacklogBoard'
 
 class App extends Component {
   render() {
@@ -17,6 +18,7 @@ class App extends Component {
             <Route path='/signup' component={SignUp} />
             <Route path='/profile' component={Profile}/>
             <Route path='/newgame' component={NewGame}/>
+            <Route path='/backlog' component={BacklogBoard}/>
           </Switch>
         </div>
         
