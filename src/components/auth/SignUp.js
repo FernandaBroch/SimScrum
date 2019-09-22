@@ -1,15 +1,14 @@
 import React, { Component } from 'react';
 import { signUp } from '../../store/actions/authActions'
 import { connect } from 'react-redux';
+import { Redirect } from 'react-router-dom';
 
 class SignUp extends Component {
   state = {
     email: '',
     password: '',
     nickname: '',
-    initials: ''
-    
-
+    initials: ''    
   }
   handleChange = (e) => {
     this.setState({
@@ -18,11 +17,11 @@ class SignUp extends Component {
   }  
   handleSubmit = (e) => {
     e.preventDefault();
-    this.props.signUp(this.state);
-    this.props.history.push('/profile');
+    this.props.signUp(this.state);            
   }
   render() {
-    const  { authError} = this.props;
+    const { auth, authError } = this.props;
+    if (auth.uid) return <Redirect to='/profile' />
     return (
       <div className="container">
         <form onSubmit={this.handleSubmit} className="white">
