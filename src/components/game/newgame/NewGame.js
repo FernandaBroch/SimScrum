@@ -4,8 +4,6 @@ import { roles } from './Roles';
 import { connect } from 'react-redux';
 import { Redirect } from 'react-router-dom';
 
-
-
 class NewGame extends Component{
     
     render(){
