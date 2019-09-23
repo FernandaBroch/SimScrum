@@ -20,6 +20,7 @@ The project is available in the following URL:
 `npm run build`
 `firebase deploy`
 
+
 ### Images
 All images used on this projects were taken from Vecteezy
 <a href="https://vecteezy.com">Free Vector Art by vecteezy.com</a> 
