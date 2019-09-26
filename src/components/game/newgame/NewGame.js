@@ -15,15 +15,16 @@ class NewGame extends Component{
   }
 
   handleSubmit = (e) => {
-    e.preventDefault();
-    
-    this.props.newGame(this.state)   
+    e.preventDefault();    
+    this.props.newGame(this.state)     
+    this.props.history.push('/backlog'); 
   }
     
   render(){
     console.log(this.props)
-    const { auth } = this.props;
+    const { auth, game } = this.props;
     if (!auth.uid) return <Redirect to='/signin' /> 
+    if (game) return <Redirect to='/backlog' /> 
       return(
         <div className='container'>
           <div className='row white'>    
