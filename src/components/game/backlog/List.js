@@ -25,5 +25,14 @@ export const stories = [
       time: 10,
       sprint: 1,
       objective: 'Exibir o site e permitir que os produtos sejam comercializados'
+    },
+    {
+      id: 4,
+      story: 'Escolher Tecnologia Utilizada e Banco de dados',
+      skill: 'Back-End',
+      level: 1,
+      time: 10,
+      sprint: 1,
+      objective: 'Exibir o site e permitir que os produtos sejam comercializados'
     }
 ]

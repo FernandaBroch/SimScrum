@@ -18,7 +18,7 @@ class Profile extends Component{
                 <Link to='/newgame' className="waves-effect waves-light btn-large"><i className="material-icons left">create_new_folder</i>Novo Jogo</Link>
               </div>
               <div className="col">
-                <a className="waves-effect waves-light btn-large disabled"><i className="material-icons left">edit</i>Continuar</a>
+              <Link to='/profile' className="waves-effect waves-light btn-large disabled"><i className="material-icons left">edit</i>Continuar</Link>
               </div>                
           </div>
         </form>
