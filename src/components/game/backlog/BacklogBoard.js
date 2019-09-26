@@ -14,20 +14,25 @@ class BacklogBoard extends Component{
     return (
       <div className='container'>
         <div className='row white'>
-            <div className='col s12 center'><h3>Backlog da Sprint</h3></div>     
-            <div className="col s4 center"><h5>Skills</h5></div>
-            <div className="col s2 center"><h5>Id</h5></div>
-            <div className="col s6 center"><h5>User Story</h5></div>
-                
-            {stories.map((stories) => (
-                <div className='col s12'>
-                    <BacklogCard
-                    story={stories.story}
-                    skill={stories.skill}
-                    id={stories.id}
-                    />
-                </div>      
-            ))}             
+        <h3 className='col s12 center'>Backlog da Sprint</h3> 
+          <table className='striped'>
+            <thead>
+              <tr>
+                <th className='center'>Skills</th>
+                <th className='center'>Id</th>
+                <th className='center'>User Story</th>
+              </tr>
+            </thead>
+            <tbody>
+            {stories.map((stories) => (                
+              <BacklogCard
+              story={stories.story}
+              skill={stories.skill}
+              id={stories.id}
+              />                
+            ))}  
+            </tbody>
+          </table>           
         </div>
       </div>
     )
