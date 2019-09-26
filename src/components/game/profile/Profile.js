@@ -15,10 +15,10 @@ class Profile extends Component{
           <ProfileCard/>
           <div className="row">
               <div className="col">
-                <Link to='/newgame' className="waves-effect waves-light btn-large"><i className="material-icons left">cloud</i>Novo Jogo</Link>
+                <Link to='/newgame' className="waves-effect waves-light btn-large"><i className="material-icons left">create_new_folder</i>Novo Jogo</Link>
               </div>
               <div className="col">
-                <a className="waves-effect waves-light btn-large"><i className="material-icons left">cloud</i>Continuar</a>
+                <a className="waves-effect waves-light btn-large disabled"><i className="material-icons left">edit</i>Continuar</a>
               </div>                
           </div>
         </form>

@@ -1,12 +1,12 @@
 import authReducer from './authReducer'
-import projectReducer from './projectReducer'
+import gameReducer from './gameReducer'
 import { combineReducers } from 'redux'
 import { firestoreReducer } from 'redux-firestore'
 import { firebaseReducer } from 'react-redux-firebase'
 
 const rootReducer = combineReducers({
   auth: authReducer,
-  project: projectReducer,
+  game: gameReducer,
   firestore: firestoreReducer,
   firebase: firebaseReducer
 });

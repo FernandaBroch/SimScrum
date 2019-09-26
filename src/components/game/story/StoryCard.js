@@ -1,7 +1,7 @@
 import React  from 'react';
 import { Link } from 'react-router-dom';
 
-const BacklogCard = (props) => {
+const StoryCard = (props) => {
     return(        
       <tr>      
           <td><Link to='/story' className='waves-effect waves-light'>{props.skill}</Link></td>
@@ -11,4 +11,4 @@ const BacklogCard = (props) => {
     )
 }
 
-export default BacklogCard;
+export default StoryCard;
