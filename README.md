@@ -24,3 +24,6 @@ The project is available in the following URL:
 ### Images
 All images used on this projects were taken from Vecteezy
 <a href="https://vecteezy.com">Free Vector Art by vecteezy.com</a> 
+
+### React Drag and Drop
+<a href="https://reactjsexample.com/a-fast-and-lightweight-drag-drop-sortable-library-for-react/">DnD library for React</a>
