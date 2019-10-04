@@ -3,12 +3,7 @@ import { connect } from 'react-redux';
 import { Redirect } from 'react-router-dom';
 //import { stories } from './BacklogList';
 import { Link } from 'react-router-dom';
-import { DndProvider } from 'react-dnd'
-import HTML5Backend from 'react-dnd-html5-backend'
-import MemberCard from './MemberCard';
 import DnDBoard from './DnDBoard';
-import DropBox from './DropBox';
-
 
 class StoryBoard extends Component{
   constructor(){
