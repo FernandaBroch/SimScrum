@@ -21,7 +21,6 @@ class NewGame extends Component{
   }
     
   render(){
-    console.log(this.props)
     const { auth, game } = this.props;
     if (!auth.uid) return <Redirect to='/signin' /> 
     if (game) return <Redirect to='/backlog' /> 

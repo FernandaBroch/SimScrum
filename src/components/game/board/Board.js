@@ -1,9 +1,7 @@
 import React, {Component} from 'react';
 import StoryCard from './StoryCard';
 import { stories } from '../story/BacklogList';
-import { connect } from 'react-redux';
-import { Redirect } from 'react-router-dom';
-import { newGame } from '../../../store/actions/gameActions'
+
 
 class Board extends Component{    
     
