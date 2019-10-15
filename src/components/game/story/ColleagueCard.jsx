@@ -1,17 +1,18 @@
 import React from 'react'
 
-export default function MemberCard(props) {
+export default function ColleagueCard(props) {
+  const { colleague } = props;
   return (  
     <div className="row">
       <div className="col s8 m8">
         <div className="grey lighten-5 z-depth-1">
           <div className="row valign-wrapper">
             <div className="col s4 m4">
-              <img src="./img/dev.png" alt="dev" className="circle responsive-img"/>
+              <img src={colleague.img} alt="dev" className="circle responsive-img"/>
             </div>
             <div className="col s8 m8">
               <span className="black-text">
-                {props.data}
+                {colleague.name}
               </span>
             </div>                        
           </div>

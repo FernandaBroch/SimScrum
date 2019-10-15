@@ -2,15 +2,16 @@ import React, {Component} from 'react';
 import BacklogCard from './BacklogCard';
 import { connect } from 'react-redux';
 import { Redirect } from 'react-router-dom';
-import { stories } from './List';
 import { Link } from 'react-router-dom';
+import { firestoreConnect } from 'react-redux-firebase'
+import { compose } from 'redux'
 
 
 class BacklogList extends Component{
-  
   render(){
     const { auth } = this.props;
-    if (!auth.uid) return <Redirect to='/signin' /> 
+    const { backlog } = this.props;
+    //if (!auth.uid) return <Redirect to='/signin' /> 
     return (
       <div className='container'>
         <div className='row white'>
@@ -27,11 +28,11 @@ class BacklogList extends Component{
               </tr>
             </thead>
             <tbody>
-            {stories.map((stories) => (                
+            {backlog && backlog.map((story) => (                
               <BacklogCard
-              story={stories.story}
-              skill={stories.skill}
-              id={stories.id}
+              story={story.description}
+              skill={story.skills}
+              id={story.id}
               />                
             ))}  
             </tbody>
@@ -42,10 +43,15 @@ class BacklogList extends Component{
   }
 }
 const mapStateToProps = (state) => {
-  // console.log(state);
-  return {
+  //console.log(state)
+  return {    
     auth: state.firebase.auth,
-    profile: state.firebase.profile
+    backlog: state.firestore.ordered.backlog
   }
 }
-export default connect(mapStateToProps)(BacklogList)
+export default compose(
+  connect(mapStateToProps),
+  firestoreConnect([
+    { collection: 'backlog'}
+  ])
+  )(BacklogList)

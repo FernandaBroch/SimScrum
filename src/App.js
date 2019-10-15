@@ -6,7 +6,7 @@ import SignUp from './components/auth/SignUp'
 import Profile from './components/game/profile/Profile'
 import NewGame from './components/game/newgame/NewGame'
 import BacklogList from './components/game/backlog/BacklogList'
-import StoryBoard from './components/game/story/StoryBoard'
+import StoryDetails from './components/game/story/StoryDetails'
 import Board from './components/game/board/Board'
 
 class App extends Component {
@@ -21,7 +21,7 @@ class App extends Component {
             <Route path='/profile' component={Profile}/>
             <Route path='/newgame' component={NewGame}/>
             <Route path='/backlog' component={BacklogList}/>
-            <Route path='/story' component={StoryBoard}/>
+            <Route path='/story/:id' component={StoryDetails}/>
             <Route path='/board' component={Board}/>
           </Switch>
         </div>

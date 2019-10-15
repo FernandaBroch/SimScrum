@@ -1,7 +1,6 @@
 import React, {Component} from 'react';
 import StoryCard from './StoryCard';
-import { stories } from '../story/BacklogList';
-
+import { stories } from '../backlog/List';
 
 class Board extends Component{    
     
