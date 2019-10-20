@@ -20,6 +20,7 @@ class StoryDetails extends Component{
   render(){
     const { auth } = this.props;
     const { story } = this.props;
+    
     //console.log(story);
     //if (!auth.uid) return <Redirect to='/signin' /> 
     if (story) {
@@ -41,10 +42,10 @@ class StoryDetails extends Component{
                 </div>
               </div>
             </div>
-            <DnDBoard story={story} />        
+            <DnDBoard story={story} storyId={this.props.match.params.id}/>        
             <div className="row">
               <div className="col s12 m12 center">
-                <Link to='/story' className="waves-effect waves-light btn-large"><i className="material-icons left">create_new_folder</i>Enviar</Link>
+                <Link to='/backlog' className="waves-effect waves-light btn-large"><i className="material-icons left">arrow_back</i>Backlog</Link>
               </div>             
             </div>
           </div>
@@ -66,6 +67,7 @@ const mapStateToProps = (state, ownProps) => {
   const id  = ownProps.match.params.id;
   const backlog = state.firestore.data.backlog;
   const story = backlog ? backlog[id] : null;
+  
   return {
     auth: state.firebase.auth,
     story: story
