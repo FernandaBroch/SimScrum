@@ -1,10 +1,9 @@
 import React, {Component} from 'react';
 import { connect } from 'react-redux';
-import { Redirect } from 'react-router-dom';
-import { Link } from 'react-router-dom';
 import DnDBoard from './DnDBoard';
 import { firestoreConnect } from 'react-redux-firebase';
 import { compose } from 'redux';
+import BacklogButton from './BacklogButton';
 
 class StoryDetails extends Component{
   constructor(){
@@ -18,35 +17,52 @@ class StoryDetails extends Component{
   }
 
   render(){
-    const { auth } = this.props;
+    const { skills } = this.props;
     const { story } = this.props;
     
-    //console.log(story);
+    console.log(skills);
     //if (!auth.uid) return <Redirect to='/signin' /> 
-    if (story) {
+    if (story && skills) {
       return (
         <div className='container'>
           <div className='row white section'>
-            <h3 className='col s12 center'>História { this.props.match.params.id }</h3> 
+            <BacklogButton/>
+            <h3 className='col s12 m12 center'>História: {story.description}</h3>                
             <div className="row">          
               <div className='col s12 m12'>
-                <div className='card-panel cyan darken-1'>
-                  <span className='white-text'>{story.description}</span>
-                </div>
-              </div>
-            </div>
-            <div className="row">          
-              <div className='col s12 m12'>
-                <div className='card-panel cyan darken-1'>
-                  <span className='white-text'>{story.skills}</span>
-                </div>
+                <div className='card cyan darken-1'>
+                  <div className="card-content white-text">
+                    <span className='card-title'>Habilidades Necessárias: </span>
+                    <div className="row">
+                    {
+                      story.skills.map(i => {
+                        const skill = skills.find(x => x.id == i);
+                        return (
+                          <div className="col s4 m4" key={i}>
+                            <div className="card-panel grey lighten-5 z-depth-1">
+                              <div className="row valign-wrapper">
+                                <div className="col s3 m5">
+                                  <img src={skill.img} alt='skill logo' className="circle responsive-img"/> 
+                                </div>
+                                <div className="col s9 m7">
+                                  <h5 className="black-text">
+                                    {skill.name}
+                                  </h5>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        );
+                      })
+                    }
+                    </div>
+                  </div>
+                </div>                
               </div>
             </div>
             <DnDBoard story={story} storyId={this.props.match.params.id}/>        
             <div className="row">
-              <div className="col s12 m12 center">
-                <Link to='/backlog' className="waves-effect waves-light btn-large"><i className="material-icons left">arrow_back</i>Backlog</Link>
-              </div>             
+              <BacklogButton/>            
             </div>
           </div>
         </div>
@@ -70,13 +86,15 @@ const mapStateToProps = (state, ownProps) => {
   
   return {
     auth: state.firebase.auth,
-    story: story
+    story: story,
+    skills: state.firestore.ordered.skills,
   }
 }
 
 export default compose(
   connect(mapStateToProps),
   firestoreConnect((props) => [
-    {collection: 'backlog', doc: props.id}
+    {collection: 'backlog', doc: props.id},
+    {collection: 'skills'}
   ])
 )(StoryDetails)

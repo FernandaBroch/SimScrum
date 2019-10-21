@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import ColleagueCard from './ColleagueCard';
 import { Container, Draggable } from 'react-smooth-dnd';
-import { applyDrag } from './utils';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
 import { firestoreConnect } from 'react-redux-firebase';
@@ -16,7 +15,7 @@ class Groups extends Component {
 
   assignColleague(storyId, e){    
     const {payload, addedIndex} = e;    
-    console.log(e)
+    //console.log(e)
     if (addedIndex === null)
     this.props.assignStoryColleague(payload, storyId)
   }
@@ -29,8 +28,8 @@ class Groups extends Component {
       <div className='row'>
         <div className='col s12 m12'>
           <div className='white'>
-            <h4 className='center col s6 m6' >Disponíveis</h4>
-            <h4 className='center col s6 m6 '>Atribuídos</h4>          
+            <h5 className='center col s6 m6' >Disponíveis</h5>
+            <h5 className='center col s6 m6 '>Atribuídos</h5>          
           </div>
         </div>
       </div>
@@ -38,7 +37,7 @@ class Groups extends Component {
   }
 
   render() {
-    const { colleagues, storyId } = this.props;
+    const { colleagues, storyId, skills } = this.props;
     let { availableColleagues, assignedColleagues } = this.props;
 
     if (colleagues && storyId) {
@@ -52,9 +51,7 @@ class Groups extends Component {
 
     return (
       <div>
-        
         {this.renderHeader()}
-
         <div className='row'>
           <div className='col s6 m6'>  
             <div className='card-panel grey darken-1'>  
@@ -64,17 +61,17 @@ class Groups extends Component {
                   getChildPayload={i => availableColleagues[i]} 
                   onDrop={e => this.assignColleague(storyId, e)}
                   >
-                  {
+                  {skills !== undefined ?
                     availableColleagues.map(p => {
                       return (
                         <Draggable key={p.id}>                          
-                          <ColleagueCard colleague={p} />                                  
+                          <ColleagueCard colleague={p} skills={skills} />                                  
                         </Draggable>
                       );
                     })
+                    : null
                   }
-                </Container>  
-              
+                </Container>                
             </div>        
           </div>  
 
@@ -86,17 +83,17 @@ class Groups extends Component {
                   getChildPayload={i => assignedColleagues[i]} 
                   onDrop={e => this.unassignColleague("", e)}
                 >
-                  {
+                {skills !== undefined ?
                     assignedColleagues.map(p => {
                       return (
                         <Draggable key={p.id}>                          
-                          <ColleagueCard colleague={p} />
+                          <ColleagueCard colleague={p} skills={skills} />
                         </Draggable>
                       );
                     })
+                    : null
                   }
-                </Container>
-              
+                </Container>              
             </div>              
           </div>  
         </div>   
@@ -120,6 +117,7 @@ const mapStateToProps = (state, props) => {
   return {
     auth: state.firebase.auth,
     colleagues: state.firestore.ordered.colleagues,
+    skills: state.firestore.ordered.skills,
     availableColleagues: [],
     assignedColleagues: []
   }
@@ -133,5 +131,5 @@ const mapDispatchToProps = (dispatch) => {
 
 export default compose(
   connect(mapStateToProps, mapDispatchToProps),
-  firestoreConnect([{ collection: 'colleagues'}])
+  firestoreConnect([{ collection: 'colleagues'}, { collection: 'skills'}])
   ) (Groups);
