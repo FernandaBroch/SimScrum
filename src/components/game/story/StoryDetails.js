@@ -32,13 +32,13 @@ class StoryDetails extends Component{
               <div className='col s12 m12'>
                 <div className='card cyan darken-1'>
                   <div className="card-content white-text">
-                    <span className='card-title'>Habilidades Necessárias: </span>
+                    <h5 className=''>Habilidades Necessárias: </h5>
                     <div className="row">
                     {
-                      story.skills.map(i => {
+                      story.skills.map((i, index) => {
                         const skill = skills.find(x => x.id === i);
                         return (
-                          <div className="col s4 m4" key={i}>
+                          <div className="col s4 m4" key={index}>
                             <div className="card-panel grey lighten-5 z-depth-1">
                               <div className="row valign-wrapper">
                                 <div className="col s3 m5">

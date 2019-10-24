@@ -7,7 +7,7 @@ import { Provider } from 'react-redux'
 import fbConfig from './config/fbConfig'
 import { ReactReduxFirebaseProvider } from 'react-redux-firebase'
 import createReduxStore from './createReduxStore'
-import { createFirestoreInstance, getFirestore } from 'redux-firestore'
+import { createFirestoreInstance } from 'redux-firestore'
 
 const store = createReduxStore();
 
