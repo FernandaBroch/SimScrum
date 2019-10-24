@@ -18,7 +18,7 @@ export default function ColleagueCard(props) {
               </h5>
               {
                 colleague.skills.map(i => {
-                  const skill = skills.find(x => x.id == i);
+                  const skill = skills.find(x => x.id === i);
                   return (
                     <div className="col s4" key={i}>
                     <img src={skill.img} alt='skill logo' className='circle responsive-img' />

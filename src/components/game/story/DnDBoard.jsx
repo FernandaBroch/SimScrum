@@ -42,7 +42,7 @@ class Groups extends Component {
 
     if (colleagues && storyId) {
       colleagues.forEach((col) => {
-        if (col.story == storyId){
+        if (col.story === storyId){
           assignedColleagues.push(col);
         }else if (col.story === "" ){
           availableColleagues.push(col);

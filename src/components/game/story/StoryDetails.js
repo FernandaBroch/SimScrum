@@ -36,7 +36,7 @@ class StoryDetails extends Component{
                     <div className="row">
                     {
                       story.skills.map(i => {
-                        const skill = skills.find(x => x.id == i);
+                        const skill = skills.find(x => x.id === i);
                         return (
                           <div className="col s4 m4" key={i}>
                             <div className="card-panel grey lighten-5 z-depth-1">
