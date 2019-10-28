@@ -20,7 +20,7 @@ class App extends Component {
             <Route path='/signup' component={SignUp} />
             <Route path='/profile' component={Profile}/>
             <Route path='/newgame' component={NewGame}/>
-            <Route path='/backlog' component={BacklogList}/>
+            <Route path='/backlog/:id' component={BacklogList}/>
             <Route path='/story/:id' component={StoryDetails}/>
             <Route path='/board' component={Board}/>
           </Switch>
