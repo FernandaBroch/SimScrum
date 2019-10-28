@@ -7,7 +7,6 @@ const SignedInLinks = (props, handleSignOut) => {
   const { profile } = props;  
   return(
     <ul className="right">
-      <li><NavLink to='/newgame'>Novo Jogo</NavLink></li>
       <li><Link to='/' onClick={props.signOut} >Sair</Link></li>
       <li><NavLink to='/profile' className='btn btn-floating pink lighten-1'>{profile.initials}</NavLink></li>
     </ul>      
