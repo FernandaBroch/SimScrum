@@ -9,7 +9,7 @@ import { firestoreConnect } from 'react-redux-firebase'
 
 class NewGame extends Component{ 
   state = {
-    role: ''
+    role: ''    
   }    
   
   handler = (role) => {
@@ -17,17 +17,32 @@ class NewGame extends Component{
   }
 
   handleSubmit = (e) => {
-    e.preventDefault();    
-    const { backlog, colleagues} = this.props
+    e.preventDefault(); 
+    const { backlog, colleagues, games } = this.props    
     this.props.newGame(this.state, backlog, colleagues);
-    this.props.history.push('/backlog'); 
+    //console.log(this.props)
+    //this.props.history.push({pathname: `/backlog/${auth.uid}`})
   }
     
   render(){
-    const { auth, game } = this.props;
-//    console.log(backlog)
-    // if (!auth.uid) return <Redirect to='/signin' /> 
-    if (game) return <Redirect to='/backlog' /> 
+    const { auth, games } = this.props;
+    //console.log(this.props)
+    let game = [];
+    let oldGameLink = '';
+    if (!auth.uid) return <Redirect to='/signin' /> 
+
+    if(games && auth){
+      game = games.find(x => auth.uid === x.uid);
+    }
+    if (game === undefined){      
+      oldGameLink = ''
+    }else{      
+      oldGameLink = {pathname: `/backlog/${game.id}`}
+    } 
+  
+    if(game && auth){
+      return <Redirect to={oldGameLink} /> 
+    }
       return(
         <div className='container'>
           <div className='row white'>    
@@ -49,18 +64,20 @@ class NewGame extends Component{
       )
   }
 }
-const mapStateToProps = (state) => {
+const mapStateToProps = (state) => { 
+ 
   return {
-    auth: state.firebase.auth,
-    game: state.firebase.game,
+    auth: state.firebase.auth,    
     colleagues: state.firestore.ordered.colleagues,
-    backlog: state.firestore.ordered.backlog
+    backlog: state.firestore.ordered.backlog,
+    games: state.firestore.ordered.games,
+    
   }
 }
 
 const mapDispatchToProps = (dispatch) => {
   return{
-    newGame: (game, backlog, colleagues ) => dispatch(newGame(game, backlog, colleagues))
+    newGame: (game, backlog, colleagues) => dispatch(newGame(game, backlog, colleagues))
   }
 }
 
@@ -73,5 +90,6 @@ export default compose(
     { collection: 'backlog',
       where: ['game', '==', '']
     },
+     { collection: 'games' },
   ])
   )(NewGame)

@@ -7,20 +7,12 @@ import StoryCard from './StoryCard';
 
 
 class BacklogList extends Component{
+  
+  
   render(){
-    const estilo = {
-      height: '600px'
-    }
-
-    const textDecorNone = 
-      {textDecoration: 'none'}
     
-      const styleLi = {
-        padding: '0px'
-      }
-    
-
-    const { backlog } = this.props; 
+    const { backlog, games } = this.props; 
+    console.log(this.props);
     let {disponivel, desenvolvimento, teste, pronto } = this.props;   
 
     if (backlog) {
@@ -130,9 +122,11 @@ class BacklogList extends Component{
   }
 }
 const mapStateToProps = (state) => {
-  //console.log(state)
-  return {    
+  
+  return {  
+    
     auth: state.firebase.auth,
+    games: state.firestore.data.games,
     backlog: state.firestore.ordered.backlog,
     disponivel: [],
     desenvolvimento: [],
@@ -140,9 +134,12 @@ const mapStateToProps = (state) => {
     pronto: []
   }
 }
+
 export default compose(
   connect(mapStateToProps),
-  firestoreConnect([
-    { collection: 'backlog'}
-  ])
+   firestoreConnect((props) => [     
+    { collection: 'backlog',
+      where: ['game', '==', props.match.params.id]
+    }
+  ]),  
   )(BacklogList)
