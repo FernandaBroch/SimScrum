@@ -3,7 +3,6 @@ export const assignStoryColleague = (colleague, storyId) => {
     const firestore = getFirestore();
     console.log(storyId)
     firestore.collection('colleagues').doc(colleague.id).update({
-        ...colleague,
         story: storyId               
       }).then(() => {
       dispatch({ type: 'ASSIGNED_COLLEAGUE_SUCCESS', colleague });

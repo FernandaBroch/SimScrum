@@ -4,7 +4,18 @@ export const newGame = (game, backlog, colleagues) => {
     const firestore = getFirestore();
     const profile = getState().firebase.profile;
     const uid = getState().firebase.auth.uid;
-    
+   
+    backlog = backlog.map((bl) => {
+      delete bl.id;
+      return bl;
+    });
+
+    colleagues = colleagues.map((col) => {
+      delete col.id;
+      return col;
+    });
+
+
     firestore.collection('games').add({
         ...game,
         nickname: profile.nickname,
@@ -12,14 +23,16 @@ export const newGame = (game, backlog, colleagues) => {
         createdAt: new Date()
       }).then(game => {
         //create a new backlog list for this game
-        backlog.forEach(bl => {
+        backlog.forEach((bl) => {
+          console.log(bl)
           firestore.collection('backlog').add({
             ...bl,
             game: game.id        
-          })          
-        })        
+          })
+        })       
         //create a new team of colleagues for this game
         colleagues.forEach(col => {
+          console.log(col)
           firestore.collection('colleagues').add({
             ...col,
             game: game.id        
