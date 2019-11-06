@@ -37,7 +37,7 @@ class Groups extends Component {
   }
 
   render() {
-    const { colleagues, storyId, skills } = this.props;
+    const { colleagues, storyId, skills, gameId } = this.props;
     let { availableColleagues, assignedColleagues } = this.props;
 
     if (colleagues && storyId) {
@@ -114,12 +114,14 @@ Groups.propTypes = {
 };
 
 const mapStateToProps = (state, props) => {
+  console.log(state.firestore.ordered.colleagues)
   return {
     auth: state.firebase.auth,
     colleagues: state.firestore.ordered.colleagues,
     skills: state.firestore.ordered.skills,
     availableColleagues: [],
     assignedColleagues: []
+    
   }
 }
 
@@ -131,5 +133,9 @@ const mapDispatchToProps = (dispatch) => {
 
 export default compose(
   connect(mapStateToProps, mapDispatchToProps),
-  firestoreConnect([{ collection: 'colleagues'}, { collection: 'skills'}])
+  firestoreConnect((props) => [
+   { collection: 'colleagues',
+     where: ['game', '==', props.gameId]
+    },
+   { collection: 'skills'}])
   ) (Groups);

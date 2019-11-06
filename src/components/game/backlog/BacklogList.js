@@ -11,11 +11,12 @@ class BacklogList extends Component{
   
   render(){
     
-    const { backlog, games } = this.props; 
-    console.log(this.props);
+    const { backlog } = this.props;     
+    //console.log(backlog);
     let {disponivel, desenvolvimento, teste, pronto } = this.props;   
-
+    let gameId = ''
     if (backlog) {
+      gameId = this.props.match.params.id
       backlog.forEach((s) => {
         switch(s.status){
           case 'disponivel':
@@ -52,7 +53,8 @@ class BacklogList extends Component{
                           <StoryCard                
                           description={story.description}
                           id={story.id}  
-                          key={index}                        
+                          key={index}    
+                          game={gameId}                    
                           />                  
                         
                       ))} 
@@ -70,6 +72,7 @@ class BacklogList extends Component{
                           description={story.description}
                           id={story.id}
                           key={index}
+                          game={gameId}
                           />                  
                         
                       ))} 
@@ -87,6 +90,7 @@ class BacklogList extends Component{
                           description={story.description}
                           id={story.id}
                           key={index}
+                          game={gameId}
                           />                  
                         
                       ))} 
@@ -104,6 +108,7 @@ class BacklogList extends Component{
                           description={story.description}
                           id={story.id}
                           key={index}
+                          game={gameId}
                           />                  
                         
                       ))} 
@@ -112,17 +117,12 @@ class BacklogList extends Component{
                 
             </div>
           </div>
-
-          
-          
-                           
-        
       </div>
     )
   }
 }
 const mapStateToProps = (state) => {
-  
+  //console.log(state);
   return {  
     
     auth: state.firebase.auth,
@@ -136,10 +136,10 @@ const mapStateToProps = (state) => {
 }
 
 export default compose(
-  connect(mapStateToProps),
    firestoreConnect((props) => [     
     { collection: 'backlog',
       where: ['game', '==', props.match.params.id]
     }
-  ]),  
+  ]),
+  connect(mapStateToProps),  
   )(BacklogList)

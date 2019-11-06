@@ -18,9 +18,10 @@ class NewGame extends Component{
 
   handleSubmit = (e) => {
     e.preventDefault(); 
+    //console.log(backlog)
     const { backlog, colleagues, games } = this.props    
     this.props.newGame(this.state, backlog, colleagues);
-    //console.log(this.props)
+    
     //this.props.history.push({pathname: `/backlog/${auth.uid}`})
   }
     
@@ -82,7 +83,6 @@ const mapDispatchToProps = (dispatch) => {
 }
 
 export default compose(
-  connect(mapStateToProps, mapDispatchToProps),
   firestoreConnect([
     { collection: 'colleagues',
       where: ['game', '==', '']
@@ -91,5 +91,6 @@ export default compose(
       where: ['game', '==', '']
     },
      { collection: 'games' },
-  ])
+  ]),
+  connect(mapStateToProps, mapDispatchToProps),
   )(NewGame)

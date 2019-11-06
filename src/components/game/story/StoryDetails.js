@@ -20,13 +20,13 @@ class StoryDetails extends Component{
     const { skills } = this.props;
     const { story } = this.props;
     
-    console.log(skills);
+    
     //if (!auth.uid) return <Redirect to='/signin' /> 
     if (story && skills) {
       return (
         <div className='container'>
           <div className='row white section'>
-            <BacklogButton/>
+            <BacklogButton id={this.props.location.data.game }/>  
             <h3 className='col s12 m12 center'>História: {story.description}</h3>                
             <div className="row">          
               <div className='col s12 m12'>
@@ -60,9 +60,9 @@ class StoryDetails extends Component{
                 </div>                
               </div>
             </div>
-            <DnDBoard story={story} storyId={this.props.match.params.id}/>        
+            <DnDBoard story={story} storyId={this.props.location.data.id} gameId={this.props.location.data.game}/>        
             <div className="row">
-              <BacklogButton/>            
+              <BacklogButton id={this.props.location.data.game}/>            
             </div>
           </div>
         </div>
@@ -80,7 +80,8 @@ class StoryDetails extends Component{
 }
 
 const mapStateToProps = (state, ownProps) => {
-  const id  = ownProps.match.params.id;
+  //console.log(ownProps)
+  const id  = ownProps.location.data.id;
   const backlog = state.firestore.data.backlog;
   const story = backlog ? backlog[id] : null;
   
@@ -94,7 +95,10 @@ const mapStateToProps = (state, ownProps) => {
 export default compose(
   connect(mapStateToProps),
   firestoreConnect((props) => [
-    {collection: 'backlog', doc: props.id},
+    {collection: 'backlog', 
+     doc: props.location.data.id },
+    {collection: 'colleagues', 
+     where: ['game', '==', props.location.data.game]},
     {collection: 'skills'}
   ])
 )(StoryDetails)
