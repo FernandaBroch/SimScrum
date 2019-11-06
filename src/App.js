@@ -7,7 +7,7 @@ import Profile from './components/game/profile/Profile'
 import NewGame from './components/game/newgame/NewGame'
 import BacklogList from './components/game/backlog/BacklogList'
 import StoryDetails from './components/game/story/StoryDetails'
-import Board from './components/game/board/Board'
+
 
 class App extends Component {
   render() {
@@ -21,8 +21,8 @@ class App extends Component {
             <Route path='/profile' component={Profile}/>
             <Route path='/newgame' component={NewGame}/>
             <Route path='/backlog/:id' component={BacklogList}/>
-            <Route path='/story/:id' component={StoryDetails}/>
-            <Route path='/board' component={Board}/>
+            <Route path='/story' component={StoryDetails}/>
+            
           </Switch>
         </div>
         
