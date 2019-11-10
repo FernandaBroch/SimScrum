@@ -5,11 +5,14 @@ import { compose } from 'redux';
 import { connect } from 'react-redux';
 import { firestoreConnect } from 'react-redux-firebase';
 import { assignStoryColleague } from '../../../store/actions/storyActions'
+import { calcSuccess } from './StoryCalc'
 
 const laneStyle = {
   height: '100%',
   minHeight: '580px',  
 }
+
+let success;
 
 class Groups extends Component {
 
@@ -28,8 +31,13 @@ class Groups extends Component {
       <div className='row'>
         <div className='col s12 m12'>
           <div className='white'>
-            <h5 className='center col s6 m6' >Disponíveis</h5>
-            <h5 className='center col s6 m6 '>Atribuídos</h5>          
+            <h5 className='center col s4 m4' >Disponíveis</h5>
+            <div className='center col s4 m4 light-blue darken-3 white-text'>
+              <h5><i className="material-icons md-48 yellow-text">star</i>Chance de Sucesso</h5>              
+              <h5 className='card blue-text'>{success} %</h5>              
+            </div>
+            <h5 className='center col s4 m4 '>Atribuídos</h5>          
+                      
           </div>
         </div>
       </div>
@@ -37,7 +45,7 @@ class Groups extends Component {
   }
 
   render() {
-    const { colleagues, storyId, skills, gameId } = this.props;
+    const { colleagues, storyId, skills, story } = this.props;
     let { availableColleagues, assignedColleagues } = this.props;
 
     if (colleagues && storyId) {
@@ -48,6 +56,8 @@ class Groups extends Component {
           availableColleagues.push(col);
         }  
     });
+
+    success = calcSuccess(story.skills, assignedColleagues);
 
     return (
       <div>
@@ -114,7 +124,7 @@ Groups.propTypes = {
 };
 
 const mapStateToProps = (state, props) => {
-  console.log(state.firestore.ordered.colleagues)
+  //console.log(state.firestore.ordered.colleagues)
   return {
     auth: state.firebase.auth,
     colleagues: state.firestore.ordered.colleagues,
