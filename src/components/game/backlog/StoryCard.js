@@ -1,15 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 
-const collectionsContent =  {
-  fontSize: '.9rem',
-  fontWeight: '400',
-  margin: '0',
-  padding: '0',
-  width: '100%',
-  
-}
-
 const linkStyle = {  
   padding: '10px 10px 10px 10px'  
 }

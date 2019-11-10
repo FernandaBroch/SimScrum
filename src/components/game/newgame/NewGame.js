@@ -19,7 +19,7 @@ class NewGame extends Component{
   handleSubmit = (e) => {
     e.preventDefault(); 
     //console.log(backlog)
-    const { backlog, colleagues, games } = this.props    
+    const { backlog, colleagues } = this.props    
     this.props.newGame(this.state, backlog, colleagues);
     
     //this.props.history.push({pathname: `/backlog/${auth.uid}`})
