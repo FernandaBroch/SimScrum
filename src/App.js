@@ -5,7 +5,7 @@ import SignIn from './components/auth/SignIn'
 import SignUp from './components/auth/SignUp'
 import Profile from './components/game/profile/Profile'
 import NewGame from './components/game/newgame/NewGame'
-import BacklogList from './components/game/backlog/BacklogList'
+import ScrumBoard from './components/game/board/ScrumBoard'
 import StoryDetails from './components/game/story/StoryDetails'
 
 
@@ -20,7 +20,7 @@ class App extends Component {
             <Route path='/signup' component={SignUp} />
             <Route path='/profile' component={Profile}/>
             <Route path='/newgame' component={NewGame}/>
-            <Route path='/backlog/:id' component={BacklogList}/>
+            <Route path='/board/:id' component={ScrumBoard}/>
             <Route path='/story' component={StoryDetails}/>
             
           </Switch>

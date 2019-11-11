@@ -38,7 +38,7 @@ class NewGame extends Component{
     if (game === undefined){      
       oldGameLink = ''
     }else{      
-      oldGameLink = {pathname: `/backlog/${game.id}`}
+      oldGameLink = {pathname: `/board/${game.id}`}
     } 
   
     if(game && auth){

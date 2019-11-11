@@ -9,8 +9,8 @@ const styleLi = {
   padding: '0px'
 }
 
-
 const StoryCard = (props) => {    
+    const styleCard = 'card lighten-4 gradient-shadow '+ props.color;
     return(     
       <Link to={
         {pathname: `/story/${props.id}`,
@@ -18,7 +18,7 @@ const StoryCard = (props) => {
         }} style={linkStyle} > 
       <li className="collection-item dismissable" style={styleLi} >
         <div className="col s12 m6 l9">
-          <div className="card cyan lighten-4 gradient-shadow">
+          <div className={styleCard}>
             <div className="card-content black-text">
               <span className="card-title">{props.description}</span>                
             </div>            

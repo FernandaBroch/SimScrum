@@ -25,7 +25,7 @@ class Profile extends Component{
       oldGameLink = ''
     }else{
       oldGame = "waves-effect waves-light btn-large"    
-      oldGameLink = {pathname: `/backlog/${game.id}`}
+      oldGameLink = {pathname: `/board/${game.id}`}
     } 
     return(
       <div className="container">
