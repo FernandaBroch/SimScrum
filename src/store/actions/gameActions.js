@@ -24,7 +24,7 @@ export const newGame = (game, backlog, colleagues) => {
       }).then(game => {
         //create a new backlog list for this game
         backlog.forEach((bl) => {
-          console.log(bl)
+          //console.log(bl)
           firestore.collection('backlog').add({
             ...bl,
             game: game.id        
@@ -32,7 +32,7 @@ export const newGame = (game, backlog, colleagues) => {
         })       
         //create a new team of colleagues for this game
         colleagues.forEach(col => {
-          console.log(col)
+          //console.log(col)
           firestore.collection('colleagues').add({
             ...col,
             game: game.id        
