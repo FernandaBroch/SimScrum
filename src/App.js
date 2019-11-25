@@ -3,6 +3,7 @@ import { BrowserRouter, Switch, Route } from 'react-router-dom'
 import Navbar from './components/layout/Navbar'
 import SignIn from './components/auth/SignIn'
 import SignUp from './components/auth/SignUp'
+import ResetPassword from './components/auth/ResetPassword'
 import Profile from './components/game/profile/Profile'
 import NewGame from './components/game/newgame/NewGame'
 import ScrumBoard from './components/game/board/ScrumBoard'
@@ -17,6 +18,7 @@ class App extends Component {
           <Navbar/>
           <Switch>
             <Route path='/signin' component={SignIn} />
+            <Route path='/resetpassword' component={ResetPassword} />
             <Route path='/signup' component={SignUp} />
             <Route path='/profile' component={Profile}/>
             <Route path='/newgame' component={NewGame}/>
