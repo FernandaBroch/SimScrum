@@ -9,35 +9,35 @@ import { calcSuccess } from './StoryCalc'
 
 const laneStyle = {
   height: '100%',
-  minHeight: '580px',  
+  minHeight: '580px',
+  cursor: 'pointer',
 }
 
 let success;
 
 class Groups extends Component {
 
-  assignColleague(storyId, e){    
-    const {payload, addedIndex} = e;    
+  assignColleague(storyId, e) {
+    const { payload, addedIndex } = e;
     //console.log(e)
     if (addedIndex === null)
-    this.props.assignStoryColleague(payload, storyId)
+      this.props.assignStoryColleague(payload, storyId)
   }
-  unassignColleague(storyId, e){
+  unassignColleague(storyId, e) {
     this.assignColleague(storyId, e)
   }
 
-  renderHeader (){
+  renderHeader() {
     return (
       <div className='row'>
         <div className='col s12 m12'>
           <div className='white'>
             <h5 className='center col s4 m4' >Disponíveis</h5>
             <div className='center col s4 m4 light-blue darken-3 white-text'>
-              <h5><i className="material-icons md-48 yellow-text">star</i>Chance de Sucesso</h5>              
-              <h5 className='card blue-text'>{success} %</h5>              
+              <h5><i className="material-icons md-48 yellow-text">star</i>Chance de Sucesso</h5>
+              <h5 className='card blue-text'>{success} %</h5>
             </div>
-            <h5 className='center col s4 m4 '>Atribuídos</h5>          
-                      
+            <h5 className='center col s4 m4 '>Atribuídos</h5>
           </div>
         </div>
       </div>
@@ -50,72 +50,73 @@ class Groups extends Component {
 
     if (colleagues && storyId) {
       colleagues.forEach((col) => {
-        if (col.story === storyId){
+        if (col.story === storyId) {
           assignedColleagues.push(col);
-        }else if (col.story === "" ){
+        } else if (col.story === "") {
           availableColleagues.push(col);
-        }  
-    });
+        }
+      });
 
-    success = calcSuccess(story.skills, assignedColleagues);
+      success = calcSuccess(story.skills, assignedColleagues);
 
-    return (
-      <div>
-        {this.renderHeader()}
-        <div className='row'>
-          <div className='col s6 m6'>  
-            <div className='card-panel grey darken-1'>  
-                <Container 
-                  style={laneStyle} 
-                  groupName='1' 
-                  getChildPayload={i => availableColleagues[i]} 
+      return (
+        <div>
+          {this.renderHeader()}
+          <div className='row'>
+            <div className='col s6 m6'>
+              <div className='card-panel grey darken-1'>
+                <Container
+                  style={laneStyle}
+                  groupName='1'
+                  getChildPayload={i => availableColleagues[i]}
                   onDrop={e => this.assignColleague(storyId, e)}
-                  >
+                >
                   {skills !== undefined ?
                     availableColleagues.map(p => {
                       return (
-                        <Draggable key={p.id}>                          
-                          <ColleagueCard colleague={p} skills={skills} />                                  
-                        </Draggable>
-                      );
-                    })
-                    : null
-                  }
-                </Container>                
-            </div>        
-          </div>  
-
-          <div className='col s6 m6'>                         
-            <div className='card-panel cyan darken-1'>                   
-                <Container 
-                  style={laneStyle} 
-                  groupName='1' 
-                  getChildPayload={i => assignedColleagues[i]} 
-                  onDrop={e => this.unassignColleague("", e)}
-                >
-                {skills !== undefined ?
-                    assignedColleagues.map(p => {
-                      return (
-                        <Draggable key={p.id}>                          
+                        <Draggable key={p.id}>
                           <ColleagueCard colleague={p} skills={skills} />
                         </Draggable>
                       );
                     })
                     : null
                   }
-                </Container>              
-            </div>              
-          </div>  
-        </div>   
+                </Container>
+              </div>
+            </div>
 
-      </div>
-    ) } else {
-      return (
-        <div>
-        { this.renderHeader() }
+            <div className='col s6 m6'>
+              <div className='card-panel cyan darken-1'>
+                <Container
+                  style={laneStyle}
+                  groupName='1'
+                  getChildPayload={i => assignedColleagues[i]}
+                  onDrop={e => this.unassignColleague("", e)}
+                >
+                  {skills !== undefined ?
+                    assignedColleagues.map(p => {
+                      return (
+                        <Draggable key={p.id}>
+                          <ColleagueCard colleague={p} skills={skills} />
+                        </Draggable>
+                      );
+                    })
+                    : null
+                  }
+                </Container>
+              </div>
+            </div>
+          </div>
+
         </div>
       )
-    }    
+    } else {
+      return (
+        <div>
+          {this.renderHeader()}
+        </div>
+      )
+    }
   }
 }
 
@@ -131,12 +132,12 @@ const mapStateToProps = (state, props) => {
     skills: state.firestore.ordered.skills,
     availableColleagues: [],
     assignedColleagues: []
-    
+
   }
 }
 
 const mapDispatchToProps = (dispatch) => {
-  return{
+  return {
     assignStoryColleague: (colleague, storyId) => dispatch(assignStoryColleague(colleague, storyId))
   }
 }
@@ -144,8 +145,9 @@ const mapDispatchToProps = (dispatch) => {
 export default compose(
   connect(mapStateToProps, mapDispatchToProps),
   firestoreConnect((props) => [
-   { collection: 'colleagues',
-     where: ['game', '==', props.gameId]
+    {
+      collection: 'colleagues',
+      where: ['game', '==', props.gameId]
     },
-   { collection: 'skills'}])
-  ) (Groups);
+    { collection: 'skills' }])
+)(Groups);

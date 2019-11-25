@@ -11,7 +11,7 @@ export const roles = [
     },
     {
         name: 'Time de Desenvolvimento',
-        image: 'img/profile.png',
+        image: 'img/timedev.png',
         description: 'São os profissionais que trabalham para desenvolver e entregar o produto.'
     }
 ]

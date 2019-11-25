@@ -28,6 +28,18 @@ const authReducer = (state = initState, action) => {
         ...state,
         authError: action.err.message
       }
+    case 'PASSWORD_RESET_SUCCESS':
+      console.log('reset success')
+      return{
+        ...state,
+        authError: 'Link enviado com Sucesso'
+      }
+    case 'PASSWORD_RESET_ERROR':
+      console.log('reset error')
+      return{
+        ...state,
+        authError: action.err.message
+      }
         
     default:
       return state;
