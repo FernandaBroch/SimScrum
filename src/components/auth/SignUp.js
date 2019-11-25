@@ -2,6 +2,8 @@ import React, { Component } from 'react';
 import { signUp } from '../../store/actions/authActions'
 import { connect } from 'react-redux';
 import { Redirect } from 'react-router-dom';
+import InputEmail from './InputEmail';
+import InputPassword from './InputPassword'
 
 class SignUp extends Component {
   state = {
@@ -26,14 +28,8 @@ class SignUp extends Component {
       <div className="container">
         <form onSubmit={this.handleSubmit} className="white">
             <h5 className="grey-text text-darken-3">Cadastro</h5>
-            <div className="input-field">
-                <label htmlFor="email">Email</label>
-                <input type="email" id="email" onChange={this.handleChange}/>
-            </div>
-            <div className="input-field">
-                <label htmlFor="password">Senha</label>
-                <input type="password" id="password" onChange={this.handleChange}/>
-            </div>
+            <InputEmail handleChange={this.handleChange.bind(this)}/>
+            <InputPassword handleChange={this.handleChange.bind(this)}/>
             <div className="input-field">
                 <label htmlFor="nickname">NickName</label>
                 <input type="text" id="nickname" onChange={this.handleChange}/>
