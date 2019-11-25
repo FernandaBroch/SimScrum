@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { sendPasswordResetEmail } from '../../store/actions/authActions'
 import { Redirect } from 'react-router-dom'
+import InputEmail from './InputEmail'
 
 class ResetPassword extends Component {
   state = {
@@ -12,12 +13,12 @@ class ResetPassword extends Component {
     this.setState({
       [e.target.id]: e.target.value
     })
-  }  
+  }
+  
   handleSubmit = (e) => {
     e.preventDefault();    
     this.props.sendPasswordResetEmail(this.state.email);                   
   }
-
 
   render() {
     const { authError, auth } = this.props;
@@ -26,10 +27,7 @@ class ResetPassword extends Component {
       <div className="container">
         <form onSubmit={this.handleSubmit} className="white">
             <h5 className="grey-text text-darken-3">Recuperar Senha</h5>
-            <div className="input-field">
-                <label htmlFor="email">Email</label>
-                <input type="email" id="email" onChange={this.handleChange}/>
-            </div>
+            <InputEmail handleChange={this.handleChange.bind(this)}/>
             <div className="input-field">
                 <button className="btn pink lighten-1 z-depth-0">Reenviar Senha</button>
                 <div className="red-text center">
