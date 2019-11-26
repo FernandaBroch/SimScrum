@@ -1,7 +1,7 @@
 export const assignStoryColleague = (colleague, storyId) => {
   return (dispatch, getState, {getFirebase, getFirestore}) => {
     const firestore = getFirestore();
-    console.log(storyId)
+    //console.log(storyId)
     firestore.collection('colleagues').doc(colleague.id).update({
         story: storyId               
       }).then(() => {
