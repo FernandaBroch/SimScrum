@@ -8,7 +8,7 @@ import Profile from './components/game/profile/Profile'
 import NewGame from './components/game/newgame/NewGame'
 import ScrumBoard from './components/game/board/ScrumBoard'
 import StoryDetails from './components/game/story/StoryDetails'
-
+import FinalScreen from './components/game/result/FinalScreen'
 
 class App extends Component {
   render() {
@@ -24,7 +24,7 @@ class App extends Component {
             <Route path='/newgame' component={NewGame}/>
             <Route path='/board/:id' component={ScrumBoard}/>
             <Route path='/story' component={StoryDetails}/>
-            
+            <Route path='/final' component={FinalScreen}/>            
           </Switch>
         </div>
         

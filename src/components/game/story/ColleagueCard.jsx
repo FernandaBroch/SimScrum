@@ -8,7 +8,7 @@ export default function ColleagueCard(props) {
     <div className='row'>
       <div className='col s8 m8'>
         <div className='grey lighten-5 z-depth-1'>
-          <div className='row valign-wrapper'>
+          <div className='row valign-wrapper hoverable'>
             <div className='col s4 m4'>
               <img src={colleague.img} alt='foto rosto' className='circle responsive-img'/>
             </div>

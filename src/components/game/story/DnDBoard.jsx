@@ -35,7 +35,7 @@ class Groups extends Component {
             <h5 className='center col s4 m4' >Disponíveis</h5>
             <div className='center col s4 m4 light-blue darken-3 white-text'>
               <h5><i className="material-icons md-48 yellow-text">star</i>Chance de Sucesso</h5>
-              <h5 className='card blue-text'>{success} %</h5>
+              <h5 className='card blue-text'>{success.toFixed(0)} %</h5>
             </div>
             <h5 className='center col s4 m4 '>Atribuídos</h5>
           </div>
@@ -56,8 +56,8 @@ class Groups extends Component {
           availableColleagues.push(col);
         }
       });
-
-      success = calcSuccess(story.skills, assignedColleagues);
+      const scrumMasterSkill = skills.find(x => x.name === 'ScrumMaster');
+      success = calcSuccess(story.skills, assignedColleagues, scrumMasterSkill.id);
 
       return (
         <div>

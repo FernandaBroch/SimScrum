@@ -3,7 +3,7 @@ import { connect } from 'react-redux'
 import { firestoreConnect } from 'react-redux-firebase'
 import { compose } from 'redux'
 import StoryCard from './StoryCard'
-import { dailyCalc, createImpediments } from './DailyCalc'
+import { dailyCalc, createImpediments, checkScrumMaster } from './DailyCalc'
 import { updateStoryStatus, deleteGame } from '../../../store/actions/boardActions'
 import { StatusEnum } from '../story/StatusEnum'
 import { calcSuccess } from '../story/StoryCalc'
@@ -13,13 +13,19 @@ class ScrumBoard extends Component {
 
   handleSubmit = (backlog, colleagues) => {
     dailyCalc(backlog, colleagues).forEach((storyColleagues, key) => {
+      //find the story in the backlog list
       const story = backlog.find(b => b.id === key);
-      //console.log(`Calculo para ${key}: `, calcSuccess(story.skills, storyColleagues));
+      //get story status
       const status = StatusEnum.get(story.status);
-      let addScrumMaster = createImpediments(calcSuccess(story.skills, storyColleagues))
-      const newStatus = addScrumMaster ? status.name : status.next;
+      //check if the story is failed or success
+      const impedimentOccur = createImpediments(calcSuccess(story.skills, storyColleagues))
+      //if success change the status of the history to the next status
+      const newStatus = impedimentOccur ? status.name : status.next;
+      //check if the story already have a SM, don't need to add it again
       const scrumMaster = story.skills.find(s => s === 'Ty78gnxUYIuKLjwOHZLo');
-      addScrumMaster = scrumMaster || story.status ==='disponivel' ? false : addScrumMaster
+      //Add or Remove SM
+      const addScrumMaster = checkScrumMaster(impedimentOccur, scrumMaster, story.status);     
+      //Update the story
       this.props.updateStoryStatus(key, newStatus, story.skills, storyColleagues, addScrumMaster)
     });
   }
