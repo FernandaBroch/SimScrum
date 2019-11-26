@@ -30,7 +30,7 @@ export const calcSuccess = (skillsStory, skillsAssigned) => {
     order.forEach(function (key) {
       var found = false;
       arr = arr.filter(function (item) {
-        if (!found && item['id'] == key) {          
+        if (!found && item['id'] === key) {          
           orderedColleagues.push(item);
           found = true;
           return false;
@@ -78,12 +78,4 @@ export const calcSuccess = (skillsStory, skillsAssigned) => {
   })
   const success = ((1 - (storySkills.length / skillsNeeded)) * 100)
   return success
-}
-
-const orderSkills = (arr, scrumMasterSkill) => {
-  if (arr.find(x => x === scrumMasterSkill) !== undefined) {
-    arr = arr.filter(x => x !== scrumMasterSkill);
-    arr.unshift(scrumMasterSkill);
-  }
-  return arr;
 }
