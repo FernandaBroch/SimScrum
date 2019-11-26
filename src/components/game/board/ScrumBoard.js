@@ -3,16 +3,16 @@ import { connect } from 'react-redux'
 import { firestoreConnect } from 'react-redux-firebase'
 import { compose } from 'redux'
 import StoryCard from './StoryCard'
-import { dailyCalc, createImpediments, checkScrumMaster } from './DailyCalc'
+import { backlogToColleagues, createImpediments, checkScrumMaster, checkEndGame } from './DailyCalc'
 import { updateStoryStatus, deleteGame } from '../../../store/actions/boardActions'
 import { StatusEnum } from '../story/StatusEnum'
 import { calcSuccess } from '../story/StoryCalc'
 import { Redirect } from 'react-router-dom';
 
 class ScrumBoard extends Component {
-
-  handleSubmit = (backlog, colleagues) => {
-    dailyCalc(backlog, colleagues).forEach((storyColleagues, key) => {
+  
+  dailyCalc = (backlog, colleagues) => {
+    backlogToColleagues(backlog, colleagues).forEach((storyColleagues, key) => {
       //find the story in the backlog list
       const story = backlog.find(b => b.id === key);
       //get story status
@@ -24,10 +24,12 @@ class ScrumBoard extends Component {
       //check if the story already have a SM, don't need to add it again
       const scrumMaster = story.skills.find(s => s === 'Ty78gnxUYIuKLjwOHZLo');
       //Add or Remove SM
-      const addScrumMaster = checkScrumMaster(impedimentOccur, scrumMaster, story.status);     
+      const addScrumMaster = checkScrumMaster(impedimentOccur, scrumMaster, story.status);
       //Update the story
-      this.props.updateStoryStatus(key, newStatus, story.skills, storyColleagues, addScrumMaster)
-    });
+      this.props.updateStoryStatus(key, newStatus, story.skills, storyColleagues, addScrumMaster)      
+    });     
+    
+    if (checkEndGame(backlog)) return this.props.history.push({pathname: `/final`})
   }
 
   deleteGame = (game, backlog, colleagues) => {
@@ -52,7 +54,7 @@ class ScrumBoard extends Component {
           <div className='s12 m12 center'><h3>Quadro Scrum (Kanban)</h3></div>
         </div>
         <div className='row'>
-          <button className='waves-effect waves-light btn-large' onClick={e => this.handleSubmit(backlog, colleagues)}><i className='material-icons left'>alarm_on</i>Avançar Dia</button>
+          <button className='waves-effect waves-light btn-large' onClick={e => this.dailyCalc(backlog, colleagues)}><i className='material-icons left'>alarm_on</i>Avançar Dia</button>
           <button className='waves-effect waves-light btn-large right red' onClick={e => this.deleteGame(this.props.match.params.id, backlog, colleagues)}><i className='material-icons left'>delete</i>Deletar Jogo</button>
         </div>
 

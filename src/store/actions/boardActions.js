@@ -2,7 +2,7 @@
 export const updateStoryStatus = (backlogId, status, skills, colleagues, addScrumMaster) => {
   return (dispatch, getState, { getFirebase, getFirestore }) => {
     const firestore = getFirestore();
-    console.log(backlogId, addScrumMaster)
+    //console.log(backlogId, addScrumMaster)
     
     const updatedSkills = (addScrumMaster) => {
       switch (addScrumMaster) {
@@ -12,7 +12,7 @@ export const updateStoryStatus = (backlogId, status, skills, colleagues, addScru
         default: return false
       }
     }
-    console.log(updatedSkills(addScrumMaster))
+    //console.log(updatedSkills(addScrumMaster))
     firestore.collection('backlog').doc(backlogId).update({
       status: status,
       skills: updatedSkills(addScrumMaster),      
