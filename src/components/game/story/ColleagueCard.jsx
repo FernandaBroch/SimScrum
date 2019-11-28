@@ -16,6 +16,9 @@ export default function ColleagueCard(props) {
               <h5 className='row black-text center'>
                 {colleague.name}                
               </h5>
+              <p className='row black-text center'>
+                {colleague.experience}                
+              </p>
               {
                 colleague.skills.map(i => {
                   const skill = skills.find(x => x.id === i);

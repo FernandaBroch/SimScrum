@@ -5,7 +5,7 @@ export const calcSuccess = (skillsStory, skillsAssigned) => {
   let storySkills = [...skillsStory];
   let orderBySkillsNr = [];
   let orderedColleagues = [];
- 
+
   const arrayRemove = ((arr, value) => {
     var index = arr.indexOf(value);
     if (index > -1) {
@@ -30,7 +30,7 @@ export const calcSuccess = (skillsStory, skillsAssigned) => {
     order.forEach(function (key) {
       var found = false;
       arr = arr.filter(function (item) {
-        if (!found && item['id'] === key) {          
+        if (!found && item['id'] === key) {
           orderedColleagues.push(item);
           found = true;
           return false;
@@ -38,6 +38,15 @@ export const calcSuccess = (skillsStory, skillsAssigned) => {
           return true;
       })
     })
+  }
+
+  const experienceChance = (experience) => {
+    switch (experience) {
+      case 'junior': return 0.50
+      case 'pleno': return 0.70
+      case 'senior': return 1
+      default: return 1
+    }
   }
 
   skillsAssigned.forEach(colleague => {
@@ -62,7 +71,7 @@ export const calcSuccess = (skillsStory, skillsAssigned) => {
     });
   });
   organizeColeagues(arrayValidSkills)
-  sortArr(skillsAssigned, orderBySkillsNr)  
+  sortArr(skillsAssigned, orderBySkillsNr)
 
   orderedColleagues.forEach(colleague => {
     colleague.skills.every(skill => {
@@ -76,6 +85,16 @@ export const calcSuccess = (skillsStory, skillsAssigned) => {
       }
     })
   })
-  const success = ((1 - (storySkills.length / skillsNeeded)) * 100)
+
+  let success = ((1 - (storySkills.length / skillsNeeded)) * 100)
+
+  const weight = success / skillsNeeded
+  success = 0;
+  orderedColleagues.forEach(colleague => {
+    success = success + (experienceChance(colleague.experience)*weight)
+  })  
+
+  if(success > 100) return success = 100
+  
   return success
 }
