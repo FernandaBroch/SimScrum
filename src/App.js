@@ -5,7 +5,9 @@ import SignIn from './components/auth/SignIn'
 import SignUp from './components/auth/SignUp'
 import ResetPassword from './components/auth/ResetPassword'
 import Profile from './components/game/profile/Profile'
-import NewGame from './components/game/newgame/NewGame'
+import GameIntro from './components/game/newgame/GameIntro'
+import SelectRole from './components/game/newgame/SelectRole'
+import MyTeam from './components/game/newgame/MyTeam'
 import ScrumBoard from './components/game/board/ScrumBoard'
 import StoryDetails from './components/game/story/StoryDetails'
 import FinalScreen from './components/game/result/FinalScreen'
@@ -21,10 +23,12 @@ class App extends Component {
             <Route path='/resetpassword' component={ResetPassword} />
             <Route path='/signup' component={SignUp} />
             <Route path='/profile' component={Profile}/>
-            <Route path='/newgame' component={NewGame}/>
+            <Route path='/selectrole' component={SelectRole}/>
             <Route path='/board/:id' component={ScrumBoard}/>
             <Route path='/story' component={StoryDetails}/>
             <Route path='/final' component={FinalScreen}/>            
+            <Route path='/gameintro' component={GameIntro}/>            
+            <Route path='/myteam/:id' component={MyTeam}/>            
           </Switch>
         </div>
         

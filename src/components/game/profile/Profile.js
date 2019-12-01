@@ -33,7 +33,7 @@ class Profile extends Component{
           <ProfileCard/>
           <div className="row">              
               <div className="col">
-                <Link to='/newgame' className={newGame}><i className="material-icons left">add_circle</i>Novo Jogo</Link>
+                <Link to='/selectrole' className={newGame}><i className="material-icons left">add_circle</i>Novo Jogo</Link>
               </div>
               <div className="col">
               <Link to={oldGameLink} className={oldGame}><i className="material-icons left">edit</i>Continuar</Link>

@@ -38,13 +38,13 @@ class StoryDetails extends Component{
                       story.skills.map((i, index) => {
                         const skill = skills.find(x => x.id === i);
                         return (
-                          <div className="col s4 m4" key={index}>
+                          <div className="col s12 m4" key={index}>
                             <div className="card-panel grey lighten-5 z-depth-1">
                               <div className="row valign-wrapper">
-                                <div className="col s3 m5">
+                                <div className="col s5 m5">
                                   <img src={skill.img} alt='skill logo' className="circle responsive-img"/> 
                                 </div>
-                                <div className="col s9 m7">
+                                <div className="col s7 m7">
                                   <h5 className="black-text">
                                     {skill.name}
                                   </h5>

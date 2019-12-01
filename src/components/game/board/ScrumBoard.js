@@ -10,7 +10,7 @@ import { calcSuccess } from '../story/StoryCalc'
 import { Redirect } from 'react-router-dom';
 
 class ScrumBoard extends Component {
-  
+
   dailyCalc = (backlog, colleagues) => {
     backlogToColleagues(backlog, colleagues).forEach((storyColleagues, key) => {
       //find the story in the backlog list
@@ -26,10 +26,10 @@ class ScrumBoard extends Component {
       //Add or Remove SM
       const addScrumMaster = checkScrumMaster(impedimentOccur, scrumMaster, story.status);
       //Update the story
-      this.props.updateStoryStatus(key, newStatus, story.skills, storyColleagues, addScrumMaster)      
-    });     
-    
-    if (checkEndGame(backlog)) return this.props.history.push({pathname: `/final`})
+      this.props.updateStoryStatus(key, newStatus, story.skills, storyColleagues, addScrumMaster)
+    });
+
+    if (checkEndGame(backlog)) return this.props.history.push({ pathname: `/final` })
   }
 
   deleteGame = (game, backlog, colleagues) => {
@@ -49,13 +49,17 @@ class ScrumBoard extends Component {
 
 
     return (
-      <div className='row white section'>
-        <div className='row'>
-          <div className='s12 m12 center'><h3>Quadro Scrum (Kanban)</h3></div>
+      <div className='row white'>
+        <div className='row card cyan section'>
+          <h3 className='col s12 m12 center white-text'>Quadro Scrum (Kanban)</h3>
         </div>
         <div className='row'>
-          <button className='waves-effect waves-light btn-large' onClick={e => this.dailyCalc(backlog, colleagues)}><i className='material-icons left'>alarm_on</i>Avançar Dia</button>
-          <button className='waves-effect waves-light btn-large right red' onClick={e => this.deleteGame(this.props.match.params.id, backlog, colleagues)}><i className='material-icons left'>delete</i>Deletar Jogo</button>
+          <div className='col s6'>
+            <button className='waves-effect waves-light btn-large' onClick={e => this.dailyCalc(backlog, colleagues)}><i className='material-icons left'>alarm_on</i>Avançar Dia</button>
+          </div>
+          <div className='col s6'>
+            <button className='waves-effect waves-light btn-large right red' onClick={e => this.deleteGame(this.props.match.params.id, backlog, colleagues)}><i className='material-icons left'>delete</i>Reiniciar Jogo</button>
+          </div>
         </div>
 
         <div id="card-widgets" className="seaction">

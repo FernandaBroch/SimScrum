@@ -63,7 +63,7 @@ class Groups extends Component {
         <div>
           {this.renderHeader()}
           <div className='row'>
-            <div className='col s6 m6'>
+            <div className='col s12 m5 l5'>
               <div className='card-panel grey darken-1'>
                 <Container
                   style={laneStyle}
@@ -75,7 +75,7 @@ class Groups extends Component {
                     availableColleagues.map(p => {
                       return (
                         <Draggable key={p.id}>
-                          <ColleagueCard colleague={p} skills={skills} />
+                          <ColleagueCard color='grey' colleague={p} skills={skills} />
                         </Draggable>
                       );
                     })
@@ -84,8 +84,12 @@ class Groups extends Component {
                 </Container>
               </div>
             </div>
-
-            <div className='col s6 m6'>
+            <div className='col s2 m2 l2'>
+              <div className='section valign-wrapper'>
+                <img src='../img/change_arrow.png' alt='seta arraste para o lado' className='responsive-img valign-wrapper' />
+              </div>
+            </div>
+            <div className='col s12 m5 l5'>
               <div className='card-panel cyan darken-1'>
                 <Container
                   style={laneStyle}
@@ -97,7 +101,7 @@ class Groups extends Component {
                     assignedColleagues.map(p => {
                       return (
                         <Draggable key={p.id}>
-                          <ColleagueCard colleague={p} skills={skills} />
+                          <ColleagueCard color='cyan' colleague={p} skills={skills} />
                         </Draggable>
                       );
                     })
