@@ -71,8 +71,7 @@ const mapStateToProps = (state) => {
     auth: state.firebase.auth,    
     colleagues: state.firestore.ordered.colleagues,
     backlog: state.firestore.ordered.backlog,
-    games: state.firestore.ordered.games,
-    
+    games: state.firestore.ordered.games,    
   }
 }
 

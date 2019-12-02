@@ -26,9 +26,10 @@ class App extends Component {
             <Route path='/selectrole' component={SelectRole}/>
             <Route path='/board/:id' component={ScrumBoard}/>
             <Route path='/story' component={StoryDetails}/>
-            <Route path='/final' component={FinalScreen}/>            
-            <Route path='/gameintro' component={GameIntro}/>            
-            <Route path='/myteam/:id' component={MyTeam}/>            
+            <Route path='/success' render={(props) => <FinalScreen {...props} result="success" />} />
+            <Route path='/fail' render={(props) => <FinalScreen {...props} result="fail" />} />
+            <Route path='/gameintro' component={GameIntro}/>
+            <Route path='/myteam/:id' component={MyTeam}/>
           </Switch>
         </div>
         

@@ -44,6 +44,7 @@ class Profile extends Component{
     )
   }
 }
+
 const mapStateToProps = (state) => {
   return {
     auth: state.firebase.auth,

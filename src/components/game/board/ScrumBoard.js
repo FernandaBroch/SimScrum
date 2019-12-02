@@ -2,142 +2,93 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { firestoreConnect } from 'react-redux-firebase'
 import { compose } from 'redux'
-import StoryCard from './StoryCard'
-import { backlogToColleagues, createImpediments, checkScrumMaster, checkEndGame } from './DailyCalc'
-import { updateStoryStatus, deleteGame } from '../../../store/actions/boardActions'
-import { StatusEnum } from '../story/StatusEnum'
-import { calcSuccess } from '../story/StoryCalc'
+import ScrumLane from './ScrumLane'
+import { dailyCalc, checkEndGame, allStoriesDone } from './DailyCalc'
+import { updateStoryStatus, updateGameDayCount, deleteGame } from '../../../store/actions/boardActions'
 import { Redirect } from 'react-router-dom';
+import { config } from '../../../config/config'
 
 class ScrumBoard extends Component {
 
-  dailyCalc = (backlog, colleagues) => {
-    backlogToColleagues(backlog, colleagues).forEach((storyColleagues, key) => {
-      //find the story in the backlog list
-      const story = backlog.find(b => b.id === key);
-      //get story status
-      const status = StatusEnum.get(story.status);
-      //check if the story is failed or success
-      const impedimentOccur = createImpediments(calcSuccess(story.skills, storyColleagues))
-      //if success change the status of the history to the next status
-      const newStatus = impedimentOccur ? status.name : status.next;
-      //check if the story already have a SM, don't need to add it again
-      const scrumMaster = story.skills.find(s => s === 'Ty78gnxUYIuKLjwOHZLo');
-      //Add or Remove SM
-      const addScrumMaster = checkScrumMaster(impedimentOccur, scrumMaster, story.status);
-      //Update the story
-      this.props.updateStoryStatus(key, newStatus, story.skills, storyColleagues, addScrumMaster)
-    });
-
-    if (checkEndGame(backlog)) return this.props.history.push({ pathname: `/final` })
+  updateDay = (game, backlog, colleagues) => {
+    const updateStatusCallback = (key, newStatus, skills, storyColleagues, addScrumMaster) => {
+      this.props.updateStoryStatus(key, newStatus, skills, storyColleagues, addScrumMaster)
+    };
+    this.props.updateGameDayCount(game);
+    dailyCalc(game, backlog, colleagues, updateStatusCallback, this.handleEndGame);
   }
 
-  deleteGame = (game, backlog, colleagues) => {
-    this.props.deleteGame(game, backlog, colleagues)
+  handleEndGame = (gameId, backlog, colleagues, gameResult) => {
+    this.props.deleteGame(gameId, backlog, colleagues);
+    if(gameResult === 'success') {
+      console.log('success');
+      this.props.history.push({ pathname: `/success` });
+    } else {
+      console.log('fail');
+      this.props.history.push({ pathname: `/fail` });
+    }
+  };
+
+  deleteGame = (gameId, backlog, colleagues) => {
+    this.props.deleteGame(gameId, backlog, colleagues);
+  }
+
+  days = (game) => {            
+    if (game == null) return
+    return (
+      <h5>Dia: {game.day} de {config.maxDays}</h5>
+    );
   }
 
   render() {
-    const { backlog, colleagues } = this.props;
-    //console.log(backlog);
-    let { disponivel, desenvolvimento, teste, pronto } = this.props;
-    let gameId = ''
-    if (backlog) {
-      gameId = this.props.match.params.id
-      backlog.forEach((s) => eval(`${s.status}.push(s)`))
+    const { backlog, colleagues, game } = this.props;
+    const { available, inDevelopment, test, done } = this.props;
+    
+    let gameId = '';
+    if (backlog && colleagues) {
+
+      gameId = this.props.match.params.id;
+
+      
+      if(game && (game.day > config.maxDays || allStoriesDone(backlog))) {
+        this.handleEndGame(gameId, backlog, colleagues, checkEndGame(game, backlog));
+      }
+  
+      const lanesMap = {
+        'disponivel': available, 'desenvolvimento': inDevelopment,
+        'teste': test, 'pronto': done
+      };
+      backlog.forEach((story) => {
+        lanesMap[story.status].push({ ...story, assignedColleagues: colleagues.filter(x => x.story === story.id)});
+      });
       if (!gameId) return <Redirect to='/profile' />
     };
-
 
     return (
       <div className='row white'>
         <div className='row card cyan section'>
           <h3 className='col s12 m12 center white-text'>Quadro Scrum (Kanban)</h3>
         </div>
-        <div className='row'>
-          <div className='col s6'>
-            <button className='waves-effect waves-light btn-large' onClick={e => this.dailyCalc(backlog, colleagues)}><i className='material-icons left'>alarm_on</i>Avançar Dia</button>
-          </div>
-          <div className='col s6'>
-            <button className='waves-effect waves-light btn-large right red' onClick={e => this.deleteGame(this.props.match.params.id, backlog, colleagues)}><i className='material-icons left'>delete</i>Reiniciar Jogo</button>
+        <div id="card-widgets" className="section">
+          <div className='row'>
+            <div className="col s2">
+              <button className='waves-effect waves-light btn-large'
+                onClick={e => this.updateDay(game, backlog, colleagues)}><i className='material-icons left'>alarm_on</i>Avançar Dia</button>
+            </div>
+            <div className="col s8 center">{this.days(game)}</div>
+            <div className="col s2">
+              <button className='waves-effect waves-light btn-large right red'
+                onClick={e => this.deleteGame(gameId, backlog, colleagues)}><i className='material-icons left'>delete</i>Reiniciar Jogo</button>
+            </div>
           </div>
         </div>
-
         <div id="card-widgets" className="seaction">
           <div className="row">
-            <div className="col s12 m6 xl3">
-              <ul id="task-card" className="collection with-header">
-                <li className="collection-header pink lighten-1">
-                  <h5 className="task-card-title mb-3">Disponível</h5>
-                </li>
-                {disponivel && disponivel.map((story, index) => (
-                  <StoryCard
-                    description={story.description}
-                    id={story.id}
-                    key={index}
-                    game={gameId}
-                    color='pink'
-                  />
 
-                ))}
-              </ul>
-            </div>
-
-            <div className="col s12 m6 xl3">
-              <ul id="task-card" className="collection with-header">
-                <li className="collection-header blue lighten-1">
-                  <h5 className="task-card-title mb-3">Em Desenvolvimento</h5>
-                </li>
-                {desenvolvimento && desenvolvimento.map((story, index) => (
-
-                  <StoryCard
-                    description={story.description}
-                    id={story.id}
-                    key={index}
-                    game={gameId}
-                    color='blue'
-                  />
-
-                ))}
-              </ul>
-            </div>
-
-            <div className="col s12 m6 xl3">
-              <ul id="task-card" className="collection with-header">
-                <li className="collection-header cyan lighten-1">
-                  <h5 className="task-card-title mb-3">Teste</h5>
-                </li>
-                {teste && teste.map((story, index) => (
-
-                  <StoryCard
-                    description={story.description}
-                    id={story.id}
-                    key={index}
-                    game={gameId}
-                    color='cyan'
-                  />
-
-                ))}
-              </ul>
-            </div>
-
-            <div className="col s12 m6 xl3">
-              <ul id="task-card" className="collection with-header">
-                <li className="collection-header teal lighten-1">
-                  <h5 className="task-card-title mb-3">Pronto</h5>
-                </li>
-                {pronto && pronto.map((story, index) => (
-
-                  <StoryCard
-                    description={story.description}
-                    id={story.id}
-                    key={index}
-                    game={gameId}
-                    color='teal'
-                  />
-
-                ))}
-              </ul>
-            </div>
+            <ScrumLane title="DISPONÍVEL" stories={available} color="pink" gameId={gameId} />
+            <ScrumLane title="EM DESENVOLVIMENTO" stories={inDevelopment} color="blue" gameId={gameId} />
+            <ScrumLane title="TESTE" stories={test} color="cyan" gameId={gameId} />
+            <ScrumLane title="PRONTO" stories={done} color="teal" gameId={gameId} />
 
           </div>
         </div>
@@ -146,29 +97,36 @@ class ScrumBoard extends Component {
   }
 }
 const mapStateToProps = (state) => {
-  //console.log(state);
+  console.log(state)
   return {
-
     auth: state.firebase.auth,
-    games: state.firestore.data.games,
+    game: state.firestore.ordered.games ? state.firestore.ordered.games[0] : {},
     backlog: state.firestore.ordered.backlog,
     colleagues: state.firestore.ordered.colleagues,
-    disponivel: [],
-    desenvolvimento: [],
-    teste: [],
-    pronto: []
+    available: [],
+    inDevelopment: [],
+    test: [],
+    done: []
   }
 }
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    updateStoryStatus: (key, status, storySkills, storyColleagues, addScrumMaster) => dispatch(updateStoryStatus(key, status, storySkills, storyColleagues, addScrumMaster)),
-    deleteGame: (game, backlog, colleagues) => dispatch(deleteGame(game, backlog, colleagues)),
+    updateStoryStatus: (key, status, storySkills, storyColleagues, addScrumMaster) =>
+      dispatch(updateStoryStatus(key, status, storySkills, storyColleagues, addScrumMaster)),
+    updateGameDayCount: (game) =>
+      dispatch(updateGameDayCount(game)),
+    deleteGame: (game, backlog, colleagues) =>
+      dispatch(deleteGame(game, backlog, colleagues)),
   }
 }
 
 export default compose(
   firestoreConnect((props) => [
+    {
+      collection: 'games',
+      doc: props.match.params.id
+    },
     {
       collection: 'backlog',
       where: ['game', '==', props.match.params.id]
