@@ -11,7 +11,8 @@ class StoryDetails extends Component {
     this.state = {
       id: '',
       skills: '',
-      description: ''
+      description: '',
+      backlog: ''
 
     }
   }
@@ -79,8 +80,20 @@ class StoryDetails extends Component {
 }
 
 const mapStateToProps = (state, ownProps) => {
+  let storyId = ownProps.match.params.id
+  console.log(state)
+  let story = null
+  // const story = state.firestore.ordered.backlog.length > 0 ? state.firestore.ordered.backlog[0] : null
+  if (state.firestore.ordered.backlog && state.firestore.ordered.backlog.length === 1) {
+    storyId = null
+    story = state.firestore.ordered.backlog[0]    
+    console.log(state.firestore.ordered.backlog[0])
+  }
+  
+
   return {
-    story: ownProps.location.state.story,
+    storyId: storyId,
+    story: story,
     auth: state.firebase.auth,
     skills: state.firestore.ordered.skills,
   }
@@ -89,8 +102,11 @@ const mapStateToProps = (state, ownProps) => {
 export default compose(
   connect(mapStateToProps),
   firestoreConnect((props) => {
-    console.log(props.story.game)
-    return props.story === undefined ? [] :
+    return props.storyId !== null ? [
+      {
+        collection: 'backlog', doc: props.storyId
+      }
+    ] :
       [
         {
           collection: 'colleagues',

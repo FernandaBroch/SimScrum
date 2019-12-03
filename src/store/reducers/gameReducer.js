@@ -1,7 +1,6 @@
 const initState = {}
 
 const gameReducer = (state = initState, action) => {
-  console.log(state);
   switch (action.type) {
     case 'NEW_GAME_SUCCESS':
       return {
