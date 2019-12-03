@@ -1,96 +1,33 @@
-import React, {Component} from 'react';
-import RoleCard from './RoleCard';
-import { roles } from './Roles';
+import React from 'react';
 import { connect } from 'react-redux';
-import { Redirect } from 'react-router-dom';
-import { newGame } from '../../../store/actions/gameActions'
-import { compose } from 'redux'
-import { firestoreConnect } from 'react-redux-firebase'
 
-class NewGame extends Component{ 
-  state = {
-    role: ''    
-  }    
+const NewGame = () => {
   
-  handler = (role) => {
-    this.setState({role: role })         
-  }
-
-  handleSubmit = (e) => {
-    e.preventDefault(); 
-    //console.log(backlog)
-    const { backlog, colleagues } = this.props    
-    this.props.newGame(this.state, backlog, colleagues);
-    
-    //this.props.history.push({pathname: `/backlog/${auth.uid}`})
-  }
-    
-  render(){
-    const { auth, games } = this.props;
-    //console.log(this.props)
-    let game = [];
-    let oldGameLink = '';
-    if (!auth.uid) return <Redirect to='/signin' /> 
-
-    if(games && auth){
-      game = games.find(x => auth.uid === x.uid);
-    }
-    if (game === undefined){      
-      oldGameLink = ''
-    }else{      
-      oldGameLink = {pathname: `/board/${game.id}`}
-    } 
-  
-    if(game && auth){
-      return <Redirect to={oldGameLink} /> 
-    }
-      return(
-        <div className='container'>
-          <div className='row white'>    
-            <form onSubmit={this.handleSubmit}>                
-              <div className='col s12 center'><h3>Escolha seu Papel</h3></div>                    
-              {roles.map((role) => (
-                <div className='col s4' key={role.name}>
-                  <RoleCard                
-                  name={role.name}
-                  description={role.description}
-                  image={role.image}
-                  action={this.handler}
-                  />
-                </div>      
-              ))}             
-            </form>
-          </div>
+  return (
+    <div>
+      <div className="row">
+        <div className='row card cyan'>
+          <h2 className='col s12 m12 center white-text'>Bem-vindo ao SimScrum!</h2>
         </div>
-      )
-  }
+        <div className='col s12 m6 l6'>
+          <h4>O SimScrum visa auxiliar o ensino de métodos ágeis através de uma simulação. </h4>
+          <h4>No próximo passo você irá selecionar um papel do Scrum e simular as suas atividades.</h4>
+          <h5>Clique no botão Novo Jogo para dar início as atividades</h5>
+        </div>
+        <div className='col s12 m6 l6 center'>
+          <img className="responsive-img" src="img/scrum.jpg" alt="" />
+          <a href='https://usemobile.com.br/metodologia-scrum-desenvolvimento/'>Fonte: usemobile.com.br</a>
+        </div>
+      </div>
+    </div>
+  )
 }
-const mapStateToProps = (state) => { 
- 
+
+const mapStateToProps = (state) => {
+  //console.log(state);
   return {
-    auth: state.firebase.auth,    
-    colleagues: state.firestore.ordered.colleagues,
-    backlog: state.firestore.ordered.backlog,
-    games: state.firestore.ordered.games,
-    
+    auth: state.firebase.auth,
+    profile: state.firebase.profile
   }
 }
-
-const mapDispatchToProps = (dispatch) => {
-  return{
-    newGame: (game, backlog, colleagues) => dispatch(newGame(game, backlog, colleagues))
-  }
-}
-
-export default compose(
-  firestoreConnect([
-    { collection: 'colleagues',
-      where: ['game', '==', '']
-    },
-    { collection: 'backlog',
-      where: ['game', '==', '']
-    },
-     { collection: 'games' },
-  ]),
-  connect(mapStateToProps, mapDispatchToProps),
-  )(NewGame)
+export default connect(mapStateToProps)(NewGame);
