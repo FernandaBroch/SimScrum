@@ -19,10 +19,11 @@ class StoryDetails extends Component {
 
   render() {
     const { skills } = this.props;
-    const { story } = this.props;
+    const { story } = this.props;    
 
     //if (!auth.uid) return <Redirect to='/signin' /> 
     if (story && skills) {
+      let storySkills = Array.isArray(story.skills) ? story.skills : [story.skills]
       return (
         <div className='container'>
           <div className='row white section'>
@@ -35,7 +36,7 @@ class StoryDetails extends Component {
                     <h5 className=''>Habilidades Necessárias: </h5>
                     <div className="row">
                       {
-                        story.skills.map((i, index) => {
+                        storySkills.map((i, index) => {
                           const skill = skills.find(x => x.id === i);
                           return (
                             <div className="col s12 m4" key={index}>
@@ -81,13 +82,13 @@ class StoryDetails extends Component {
 
 const mapStateToProps = (state, ownProps) => {
   let storyId = ownProps.match.params.id
-  console.log(state)
+  //console.log(state)
   let story = null
   // const story = state.firestore.ordered.backlog.length > 0 ? state.firestore.ordered.backlog[0] : null
   if (state.firestore.ordered.backlog && state.firestore.ordered.backlog.length === 1) {
     storyId = null
     story = state.firestore.ordered.backlog[0]    
-    console.log(state.firestore.ordered.backlog[0])
+    //console.log(state.firestore.ordered.backlog[0])
   }
   
 

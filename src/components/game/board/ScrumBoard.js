@@ -97,7 +97,7 @@ class ScrumBoard extends Component {
   }
 }
 const mapStateToProps = (state) => {
-  console.log(state)
+  //console.log(state)
   return {
     auth: state.firebase.auth,
     game: state.firestore.ordered.games ? state.firestore.ordered.games[0] : {},

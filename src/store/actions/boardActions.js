@@ -11,10 +11,11 @@ export const updateStoryStatus = (backlogId, status, skills, colleagues, addScru
         default: return false
       }
     }
-
+    const addTestSkill = (status === 'teste') ? ['HvsRsvpCrGiYKUqzJVUc','HvsRsvpCrGiYKUqzJVUc'] : updatedSkills(addScrumMaster)
+    
     firestore.collection('backlog').doc(backlogId).update({
       status: status,
-      skills: updatedSkills(addScrumMaster),      
+      skills: addTestSkill,      
     }).then(() => {
       colleagues.forEach(col => {
         firestore.collection('colleagues').doc(col.id).update({

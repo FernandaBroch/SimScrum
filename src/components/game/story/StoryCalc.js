@@ -1,8 +1,8 @@
 export const calcSuccess = (skillsStory, skillsAssigned) => {
-  const skillsNeeded = skillsStory.length;
+  let storySkills = Array.isArray(skillsStory) ? [...skillsStory] : [skillsStory]
+  const skillsNeeded = storySkills.length;
   let skillFound;
-  let arrayValidSkills = [];
-  let storySkills = [...skillsStory];
+  let arrayValidSkills = [];  
   let orderBySkillsNr = [];
   let orderedColleagues = [];
 
@@ -85,7 +85,7 @@ export const calcSuccess = (skillsStory, skillsAssigned) => {
       }
     })
   })
-
+  
   let success = ((1 - (storySkills.length / skillsNeeded)) * 100)
 
   const weight = success / skillsNeeded
