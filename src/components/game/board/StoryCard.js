@@ -34,7 +34,7 @@ const StoryCard = (props) => {
 
     return(     
       <Link to={{pathname: `/story/${story.id}` }} style={linkStyle}> 
-      {console.log(story.id)}
+      
       <li className="collection-item dismissable" style={styleLi}>
         <div className={`card lighten-4 gradient-shadow ${props.color}`} style={{'margin' :'1rem'}}>
           {badgeSuccessRate(story)}

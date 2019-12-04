@@ -1,4 +1,4 @@
 export const config = {
-  maxDays: 5,
+  maxDays: 8,
   scrumMasterSkillId: 'Ty78gnxUYIuKLjwOHZLo'
 };
