@@ -1,4 +1,5 @@
 ## SimScrum
+This project was developed as final paper for the Course of Internet Systems Technologist - IFRS.
 The objective of this project is to help beginners to understand and experience basic Scrum concepts. 
 Such as the roles and day to day activities of scrum teams.
 
