@@ -26,8 +26,8 @@ export const dailyCalc = (game, backlog, colleagues, handleUpdateStoryStatus, ha
 }
 
 const storyAlreadyHasScrumMaster = (story) => {
-  const storySkills = Array.isArray(story) ? [...story] : [story]
-  return storySkills.find(skill => skill === config.scrumMasterSkillId);
+  // Check if the Scrum Master skill is present in the story's skills array
+  return Array.isArray(story.skills) && story.skills.includes(config.scrumMasterSkillId);
 }
 
 const createImpediments = (success) => {
